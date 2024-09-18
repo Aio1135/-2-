@@ -1,6 +1,6 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
-public class ex18 {
+public class Ex18 {
 	public static void insertArray(int n[], int s[]) {
 		System.out.println("10명 학생의 학번과 점수 입력");
 		Scanner scanner = new Scanner(System.in);

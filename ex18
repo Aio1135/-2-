@@ -1,0 +1,139 @@
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class ex18 {
+	public static void insertArray(int n[], int s[]) {
+		System.out.println("10명 학생의 학번과 점수 입력");
+		Scanner scanner = new Scanner(System.in);
+		for(int i=0; i<s.length; i++) {
+			System.out.print(i+1 + ">>");
+			try{
+				n[i] = scanner.nextInt(); //학번 배열에 저장
+			}
+			catch(InputMismatchException e) { //문자열 입력시 예외처리
+				System.out.println("학번에는 정수를 입력해주세요.");
+				scanner.nextLine();
+				i--;
+				continue;
+			}
+			try{
+				s[i] = scanner.nextInt(); //점수 배열에 저장
+			}
+			catch(InputMismatchException e) { //문자열 입력시 예외처리
+				System.out.println("점수에는 정수를 입력해주세요.");
+				scanner.nextLine();
+				i--;
+				continue;
+			}
+		}
+	}
+	
+	public static int userChoice() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("학번으로 검색: 1, 점수로 검색: 2, 끝내려면 3>>");
+		while(true) {
+			try{
+				int choice = scanner.nextInt(); //옵션 선택값 저장 후 반환
+				return choice;
+			}
+			catch(InputMismatchException e) { //옵션 선택값에 문자열 입력시 예외처리
+				System.out.println("검색옵션에는 정수를 입력해주세요.");
+				System.out.print("학번으로 검색: 1, 점수로 검색: 2, 끝내려면 3>>");
+				scanner.nextLine();
+				continue;
+			}
+		}
+	}
+	
+	public static void choiceOne(int number, int nArray[], int sArray[], int check) { //학번으로 검색하는 함수
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("학번>>");
+		while(true) {
+			try {
+				number = scanner.nextInt();
+				break;
+			}
+			catch(InputMismatchException e) { //학번에 문자열 입력시 예외처리
+				System.out.println("경고!! 정수를 입력하세요.");
+				System.out.print("학번>>");
+				scanner.nextLine();
+				continue;
+			}
+		}
+		System.out.print(number + "의 학생은 ");
+		for(int i=0; i<nArray.length; i++) { //사용자가 입력한 값과 학번 배열을 비교하여 값이 일치하는 점수 배열의 값을 출력함.
+			if(number == nArray[i]) {
+				System.out.println(sArray[i] + " 점 입니다."); //일치하는 값이 있다면 해당 점수 출력
+				check ++; //일치하는 값이 있었는지 유무 판단
+			}
+		}
+		if(check == 0) {
+			System.out.println("없습니다."); //일치하는 값이 없으면 출력
+		}
+	}
+	
+	public static void choiceTwo(int score, int nArray[], int sArray[], int check) { //점수로 검색하는 함수
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("점수>>");
+		while(true) {
+			try {
+				score = scanner.nextInt();
+				break;
+			}
+			catch(InputMismatchException e) { //점수에 문자열 입력시 예외처리
+				System.out.println("경고!! 정수를 입력하세요.");
+				System.out.print("점수>>");
+				scanner.nextLine();
+				continue;
+			}
+		}
+		System.out.print("점수가 " + score + "인 학생은 ");
+		for(int i=0; i<sArray.length; i++) { //사용자가 입력한 값과 점수 배열을 비교하여 값이 일치하는 학번 배열의 값을 출력함.
+			if(score == sArray[i]) {
+				System.out.print(nArray[i] + " "); //일치하는 값이 있었다면 해당 학번 출력
+				check ++; //일치하는 값이 있었는지 유무 판단
+			}
+		}
+		if(check != 0) {
+			System.out.println("입니다."); //일치하는 값이 있었다면 출력
+		}
+		else if(check == 0) {
+			System.out.println("없습니다."); //일치하는 값이 없으면 출력
+		}
+	}
+	
+	public static void main(String[] args) {
+		int numberArray[] = new int[10]; //학번배열
+		int scoreArray[] = new int[10]; //점수배열
+		int userChoice = 0; //사용자의 검색 옵션 선택값
+		int findNumber = 0; //사용자가 검색할 학번
+		int findScore = 0; //사용자가 검색할 점수
+		int check = 0; //저장된 학번 중 사용자의 입력값과 일치하는 값이 있는지 유무를 확인하는 변수
+		Scanner scanner = new Scanner(System.in);
+		
+		insertArray(numberArray, scoreArray); //1차원 배열 2개에 각각 학번과 점수를 입력
+		
+		while(true) {
+			userChoice = userChoice(); //옵션 선택
+			check = 0; //옵션 선택시 0으로 초기화
+			if(userChoice == 1) { //학번으로 검색할 경우
+				choiceOne(findNumber, numberArray, scoreArray, check);
+				continue;
+			}
+			else if(userChoice == 2) { //점수로 검색할 경우
+				choiceTwo(findScore, numberArray, scoreArray, check);
+				continue;
+			}
+			else if(userChoice == 3) { //프로그램 종료를 원하는 경우
+				System.out.println("프로그램을 종료합니다.");
+				break;
+			}
+			else {
+				System.out.println("1, 2, 3 중에서만 선택해주세요."); //1, 2, 3외 다른 정수 입력시 출력
+				continue;
+			}
+		}
+		scanner.close();
+	}
+
+}
